@@ -1,6 +1,12 @@
 class RecipesController < ApplicationController
   def index
     @recipes = Recipe.all
+
+  sort_attribute = params[:sort]
+    if sort_attribute
+      @recipes = Recipe.all.order(sort_attribute)
+    end
+
   end
 
   def show
@@ -21,7 +27,8 @@ class RecipesController < ApplicationController
                         )
     recipe.save
     flash[:success] = "Recipe Successfully Created"
-    redirect_to "/recipes/#{ recipe.id }"
+    redirect_to "/recipes/#{ recipe.id }" #why do we utilize a space between { aand recipe here but not line 3 in edit.html.erb
+    #since render is implicit and here even when it is not typed. could we have just written render 'show.html.erb'?
   end
 
   def edit
@@ -46,6 +53,10 @@ class RecipesController < ApplicationController
     recipe.destroy
     flash[:warning] = "Recipe Destroyed"
     redirect_to "/"
+  end
+
+  def method_name
+    
   end
 end
 
